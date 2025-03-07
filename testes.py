@@ -11,7 +11,7 @@ def client():
 
 @patch("api.connect_db") 
 
-def test_get_imoveis(mock_connect_db, client):
+def test_get_todos_imoveis(mock_connect_db, client):
 
     # Criamos um Mock para a conexão e o cursor
     mock_conn = MagicMock()
@@ -41,3 +41,15 @@ def test_get_imoveis(mock_connect_db, client):
         ]
     }
     assert response.get_json() == expected_response
+
+def teste_get_todos_imoveis_vazio(mock_connect_db, client):
+
+    mock_conn = MagicMock()
+    mock_cursor = MagicMock()
+    mock_conn.cursor.return_value = mock_cursor
+    mock_cursor.fetchall.return_value = []
+
+    mock_connect_db.return_value = mock_conn
+    response = client.get("/imoveis")
+    assert response.status_code == 404
+
