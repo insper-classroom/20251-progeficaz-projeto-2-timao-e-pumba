@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Imóveis</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+        th { background-color: #f4f4f4; }
+    </style>
+</head>
+<body>
+    <h1>Gerenciador de Imóveis</h1>
+    
+    <h2>Adicionar Imóvel</h2>
+    <form id="form-imovel">
+        <input type="text" id="logradouro" placeholder="Logradouro" required>
+        <input type="text" id="cidade" placeholder="Cidade" required>
+        <input type="text" id="tipo" placeholder="Tipo" required>
+        <input type="number" id="valor" placeholder="Valor" required>
+        <button type="submit">Adicionar</button>
+    </form>
+    
+    <h2>Lista de Imóveis</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Logradouro</th>
+                <th>Cidade</th>
+                <th>Tipo</th>
+                <th>Valor</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-imoveis"></tbody>
+    </table>
+    
+    <script>
+        function carregarImoveis() {
+            $.get("/imoveis", function(data) {
+                let tabela = "";
+                data.forEach(imovel => {
+                    tabela += `<tr>
+                        <td>${imovel.id}</td>
+                        <td>${imovel.logradouro}</td>
+                        <td>${imovel.cidade}</td>
+                        <td>${imovel.tipo}</td>
+                        <td>${imovel.valor}</td>
+                        <td>
+                            <button onclick="editarImovel(${imovel.id})">Editar</button>
+                            <button onclick="excluirImovel(${imovel.id})">Excluir</button>
+                        </td>
+                    </tr>`;
+                });
+                $("#tabela-imoveis").html(tabela);
+            });
+        }
+        
+        $("#form-imovel").submit(function(event) {
+            event.preventDefault();
+            let novoImovel = {
+                logradouro: $("#logradouro").val(),
+                cidade: $("#cidade").val(),
+                tipo: $("#tipo").val(),
+                valor: parseFloat($("#valor").val())
+            };
+            $.post("/imoveis", JSON.stringify(novoImovel), function() {
+                carregarImoveis();
+                $("#form-imovel")[0].reset();
+            }, "json").fail(function() {
+                alert("Erro ao adicionar imóvel.");
+            });
+        });
+        
+        function excluirImovel(id) {
+            $.ajax({
+                url: `/imoveis/${id}`,
+                type: "DELETE",
+                success: function() {
+                    carregarImoveis();
+                },
+                error: function() {
+                    alert("Erro ao excluir imóvel.");
+                }
+            });
+        }
+        
+        $(document).ready(function() {
+            carregarImoveis();
+        });
+    </script>
+</body>
+</html>
