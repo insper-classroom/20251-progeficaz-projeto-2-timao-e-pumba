@@ -1,4 +1,10 @@
-# 📌 API de Gerenciamento de Imóveis
+
+
+
+AWS : http://34.203.242.79:5000
+
+
+
 
 Este é um projeto de API para gerenciamento de imóveis, desenvolvido com **Flask** e utilizando **SQLite** como banco de dados temporário. A API segue os princípios **RESTful** e adota o modelo **TDD (Test-Driven Development)**.
 
