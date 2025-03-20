@@ -1,0 +1,113 @@
+# 📌 API de Gerenciamento de Imóveis
+
+Este é um projeto de API para gerenciamento de imóveis, desenvolvido com **Flask** e utilizando **SQLite** como banco de dados temporário. A API segue os princípios **RESTful** e adota o modelo **TDD (Test-Driven Development)**.
+
+
+## 📂 Estrutura do Projeto
+
+```
+📦 projeto-imoveis
+ ┣ 📜 app.py              # Arquivo principal da aplicação
+ ┣ 📜 database.py         # Configuração do banco de dados
+ ┣ 📜 models.py           # Modelo do banco de dados (Imovel)
+ ┣ 📜 routes.py           # Definição das rotas da API
+ ┣ 📂 tests               # Pasta com os testes automatizados
+ ┃ ┗ 📜 test_routes.py   # Arquivo com os testes das rotas
+ ┗ 📜 README.md           # Documentação do projeto
+```
+
+---
+
+## ⚙️ Configuração do Ambiente
+### **1️⃣ Criar um ambiente virtual**
+```sh
+python -m venv venv
+```
+
+### **2️⃣ Ativar o ambiente virtual**
+- **Windows**:
+  ```sh
+  venv\Scripts\activate
+  ```
+- **Mac/Linux**:
+  ```sh
+  source venv/bin/activate
+  ```
+
+### **3️⃣ Instalar as dependências**
+```sh
+pip install -r requirements.txt
+```
+
+Se não houver um `requirements.txt`, instale manualmente:
+```sh
+pip install flask flask-sqlalchemy pytest
+```
+
+---
+
+## 🏡 Endpoints da API
+
+### **1️⃣ Criar um novo imóvel**
+```http
+POST /imoveis
+```
+**Body (JSON):**
+```json
+{
+    "logradouro": "Rua Teste",
+    "cidade": "TesteCity",
+    "tipo": "Casa",
+    "valor": 300000
+}
+```
+**Resposta:**
+```json
+{
+    "id": 1,
+    "logradouro": "Rua Teste",
+    "cidade": "TesteCity",
+    "tipo": "Casa",
+    "valor": 300000
+}
+```
+
+### **2️⃣ Listar todos os imóveis**
+```http
+GET /imoveis
+```
+**Resposta:**
+```json
+[
+    {
+        "id": 1,
+        "logradouro": "Rua Teste",
+        "cidade": "TesteCity",
+        "tipo": "Casa",
+        "valor": 300000
+    }
+]
+```
+
+### **3️⃣ Buscar imóvel por ID**
+```http
+GET /imoveis/{id}
+```
+**Exemplo:**
+```sh
+GET /imoveis/1
+```
+
+---
+
+## 🛠 Executando os Testes
+
+Para rodar os testes automatizados:
+```sh
+pytest tests/
+```
+
+---
+
+## 📝 Autores
+Projeto desenvolvido por **Vanessa Pitangui e Luisa Farah** para fins acadêmicos como projeto da matéria de Programação Eficaz do Insper. 😊
